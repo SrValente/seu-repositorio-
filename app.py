@@ -151,7 +151,7 @@ st.markdown("""
 <div style="text-align: center; padding: 20px; color: #6b7280;">
     <p style="font-size: 0.9rem;">
         🚀 Versão 2.0 | Desenvolvido por <strong>Raiza</strong><br>
-        📧 suporte@raizaeducacao.com.br | 📞 (11) 9876-5432
+        📧 bi@raizaeducacao.com.br | 📞 (21) 98905-9301
     </p>
     <div style="margin-top: 10px;">
         <img src="https://img.icons8.com/fluency/48/000000/instagram-new.png" style="margin: 0 10px; height: 32px;">
