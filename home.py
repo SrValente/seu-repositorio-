@@ -30,6 +30,7 @@ st.markdown("""
         justify-content: space-between;
         position: relative;
         overflow: hidden;
+        text-align: center;
     }
     
     .card:hover {
@@ -56,6 +57,7 @@ st.markdown("""
     
     /* Botão integrado ao card */
     .card-button {
+        display: inline-block;
         width: 100%;
         border: none;
         background: linear-gradient(135deg, #3b82f6, #1d4ed8);
@@ -66,24 +68,12 @@ st.markdown("""
         transition: all 0.3s ease;
         cursor: pointer;
         text-align: center;
-        position: relative;
-        z-index: 2;
+        text-decoration: none;
     }
     
     .card-button:hover {
         opacity: 0.9;
         transform: scale(1.02);
-    }
-    
-    /* Área clicável completa */
-    .clickable-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        cursor: pointer;
-        z-index: 1;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -105,7 +95,6 @@ with col1:
     # Card Ocorrências
     st.markdown("""
     <div class="card">
-        <div class="clickable-overlay"></div>
         <div class="card-content">
             <div class="card-title">📋 Registro de Ocorrências</div>
             <div class="card-description">
@@ -114,19 +103,15 @@ with col1:
                 - Registro de envolvidos
                 - Acompanhamento temporal
             </div>
-            <div class="card-button">Acessar Módulo</div>
+            <a href="/pages/1_📋_Ocorrências" class="card-button">Acessar Módulo</a>
         </div>
     </div>
     """, unsafe_allow_html=True)
-    
-    if st.button(" ", key="btn_ocorrencias"):
-        st.switch_page("pages/1_📋_Ocorrências.py")
 
 with col2:
     # Card Grade Horária
     st.markdown("""
     <div class="card">
-        <div class="clickable-overlay"></div>
         <div class="card-content">
             <div class="card-title">🕒 Grade Horária Inteligente</div>
             <div class="card-description">
@@ -136,19 +121,15 @@ with col2:
                 - Exportação para PDF
                 - Integração com calendário
             </div>
-            <div class="card-button">Acessar Módulo</div>
+            <a href="/pages/2_🕒_Grade_Horária" class="card-button">Acessar Módulo</a>
         </div>
     </div>
     """, unsafe_allow_html=True)
-    
-    if st.button(" ", key="btn_grade"):
-        st.switch_page("pages/2_🕒_Grade_Horária.py")
 
 with col3:
     # Card Faltas
     st.markdown("""
     <div class="card">
-        <div class="clickable-overlay"></div>
         <div class="card-content">
             <div class="card-title">📅 Gestão de Frequência</div>
             <div class="card-description">
@@ -158,13 +139,10 @@ with col3:
                 - Integração com diário de classe
                 - Alertas de infrequência
             </div>
-            <div class="card-button">Acessar Módulo</div>
+            <a href="/pages/3_📅_Lançamento_Faltas" class="card-button">Acessar Módulo</a>
         </div>
     </div>
     """, unsafe_allow_html=True)
-    
-    if st.button(" ", key="btn_faltas"):
-        st.switch_page("pages/3_📅_Lançamento_Faltas.py")
 
 # Footer
 st.markdown("---")
