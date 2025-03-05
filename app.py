@@ -108,9 +108,6 @@ with col1:
                 - Acompanhamento temporal
             </div>
         </div>
-        <div style="text-align: center; margin-top: 20px;">
-            <div class="decorative-button">Acessar Módulo</div>
-        </div>
     </div>
     """, unsafe_allow_html=True)
     
@@ -133,9 +130,6 @@ with col2:
                 - Integração com calendário
             </div>
         </div>
-        <div style="text-align: center; margin-top: 20px;">
-            <div class="decorative-button">Acessar Módulo</div>
-        </div>
     </div>
     """, unsafe_allow_html=True)
     
@@ -156,10 +150,6 @@ with col3:
                 - Integração com diário de classe
                 - Alertas de infrequência
             </div>
-        </div>
-        <div style="text-align: center; margin-top: 20px;">
-            <div class="decorative-button">Acessar Módulo</div>
-        </div>
     </div>
     """, unsafe_allow_html=True)
     
