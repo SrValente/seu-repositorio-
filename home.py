@@ -55,9 +55,8 @@ st.markdown("""
         margin-bottom: 20px;
     }
     
-    /* Botão integrado ao card */
-    .card-button {
-        display: inline-block;
+    /* Botão dentro do card */
+    .stButton > button {
         width: 100%;
         border: none;
         background: linear-gradient(135deg, #3b82f6, #1d4ed8);
@@ -68,10 +67,11 @@ st.markdown("""
         transition: all 0.3s ease;
         cursor: pointer;
         text-align: center;
-        text-decoration: none;
+        position: relative;
+        z-index: 2;
     }
     
-    .card-button:hover {
+    .stButton > button:hover {
         opacity: 0.9;
         transform: scale(1.02);
     }
@@ -103,10 +103,12 @@ with col1:
                 - Registro de envolvidos
                 - Acompanhamento temporal
             </div>
-            <a href="/pages/1_📋_Ocorrências" class="card-button">Acessar Módulo</a>
         </div>
     </div>
     """, unsafe_allow_html=True)
+    
+    if st.button("Acessar Módulo", key="btn_ocorrencias"):
+        st.switch_page("pages/1_📋_Ocorrências.py")
 
 with col2:
     # Card Grade Horária
@@ -121,10 +123,12 @@ with col2:
                 - Exportação para PDF
                 - Integração com calendário
             </div>
-            <a href="/pages/2_🕒_Grade_Horária" class="card-button">Acessar Módulo</a>
         </div>
     </div>
     """, unsafe_allow_html=True)
+    
+    if st.button("Acessar Módulo", key="btn_grade"):
+        st.switch_page("pages/2_🕒_Grade_Horária.py")
 
 with col3:
     # Card Faltas
@@ -139,10 +143,12 @@ with col3:
                 - Integração com diário de classe
                 - Alertas de infrequência
             </div>
-            <a href="/pages/3_📅_Lançamento_Faltas" class="card-button">Acessar Módulo</a>
         </div>
     </div>
     """, unsafe_allow_html=True)
+    
+    if st.button("Acessar Módulo", key="btn_faltas"):
+        st.switch_page("pages/3_📅_Lançamento_Faltas.py")
 
 # Footer
 st.markdown("---")
