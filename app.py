@@ -153,9 +153,5 @@ st.markdown("""
         🚀 Versão 2.0 | Desenvolvido por <strong>Raiza</strong><br>
         📧 bi@raizaeducacao.com.br | 📞 (21) 98905-9301
     </p>
-    <div style="margin-top: 10px;">
-        <img src="https://img.icons8.com/fluency/48/000000/instagram-new.png" style="margin: 0 10px; height: 32px;">
-        <img src="https://img.icons8.com/color/48/000000/facebook.png" style="margin: 0 10px; height: 32px;">
-    </div>
 </div>
 """, unsafe_allow_html=True)
