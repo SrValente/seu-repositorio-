@@ -24,16 +24,22 @@ st.markdown("""
         padding: 25px;
         box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         transition: all 0.3s ease;
-        min-height: 250px;
+        min-height: 300px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         position: relative;
+        overflow: hidden;
     }
     
     .card:hover {
         transform: translateY(-5px);
         box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+    }
+    
+    .card-content {
+        position: relative;
+        z-index: 2;
     }
     
     .card-title {
@@ -60,6 +66,8 @@ st.markdown("""
         transition: all 0.3s ease;
         cursor: pointer;
         text-align: center;
+        position: relative;
+        z-index: 2;
     }
     
     .card-button:hover {
@@ -67,7 +75,7 @@ st.markdown("""
         transform: scale(1.02);
     }
     
-    /* Área clicável invisível */
+    /* Área clicável completa */
     .clickable-overlay {
         position: absolute;
         top: 0;
@@ -95,71 +103,68 @@ col1, col2, col3 = st.columns(3)
 
 with col1:
     # Card Ocorrências
-    with st.container():
-        st.markdown("""
-        <div class="card">
-            <div class="clickable-overlay"></div>
-            <div>
-                <div class="card-title">📋 Registro de Ocorrências</div>
-                <div class="card-description">
-                    Registre e acompanhe incidentes escolares com detalhamento completo:
-                    - Classificação por tipo
-                    - Registro de envolvidos
-                    - Acompanhamento temporal
-                </div>
-                <div class="card-button">Acessar Módulo</div>
+    st.markdown("""
+    <div class="card">
+        <div class="clickable-overlay"></div>
+        <div class="card-content">
+            <div class="card-title">📋 Registro de Ocorrências</div>
+            <div class="card-description">
+                Registre e acompanhe incidentes escolares com detalhamento completo:
+                - Classificação por tipo
+                - Registro de envolvidos
+                - Acompanhamento temporal
             </div>
+            <div class="card-button">Acessar Módulo</div>
         </div>
-        """, unsafe_allow_html=True)
-        
-        if st.button(" ", key="btn_ocorrencias"):
-            st.switch_page("pages/1_📋_Ocorrências.py")
+    </div>
+    """, unsafe_allow_html=True)
+    
+    if st.button(" ", key="btn_ocorrencias"):
+        st.switch_page("pages/1_📋_Ocorrências.py")
 
 with col2:
     # Card Grade Horária
-    with st.container():
-        st.markdown("""
-        <div class="card">
-            <div class="clickable-overlay"></div>
-            <div>
-                <div class="card-title">🕒 Grade Horária Inteligente</div>
-                <div class="card-description">
-                    Controle completo da grade curricular:
-                    - Visualização por turma/professor
-                    - Alertas de conflitos
-                    - Exportação para PDF
-                    - Integração com calendário
-                </div>
-                <div class="card-button">Acessar Módulo</div>
+    st.markdown("""
+    <div class="card">
+        <div class="clickable-overlay"></div>
+        <div class="card-content">
+            <div class="card-title">🕒 Grade Horária Inteligente</div>
+            <div class="card-description">
+                Controle completo da grade curricular:
+                - Visualização por turma/professor
+                - Alertas de conflitos
+                - Exportação para PDF
+                - Integração com calendário
             </div>
+            <div class="card-button">Acessar Módulo</div>
         </div>
-        """, unsafe_allow_html=True)
-        
-        if st.button(" ", key="btn_grade"):
-            st.switch_page("pages/2_🕒_Grade_Horária.py")
+    </div>
+    """, unsafe_allow_html=True)
+    
+    if st.button(" ", key="btn_grade"):
+        st.switch_page("pages/2_🕒_Grade_Horária.py")
 
 with col3:
     # Card Faltas
-    with st.container():
-        st.markdown("""
-        <div class="card">
-            <div class="clickable-overlay"></div>
-            <div>
-                <div class="card-title">📅 Gestão de Frequência</div>
-                <div class="card-description">
-                    Sistema completo de controle de presenças:
-                    - Lançamento em massa
-                    - Relatórios automáticos
-                    - Integração com diário de classe
-                    - Alertas de infrequência
-                </div>
-                <div class="card-button">Acessar Módulo</div>
+    st.markdown("""
+    <div class="card">
+        <div class="clickable-overlay"></div>
+        <div class="card-content">
+            <div class="card-title">📅 Gestão de Frequência</div>
+            <div class="card-description">
+                Sistema completo de controle de presenças:
+                - Lançamento em massa
+                - Relatórios automáticos
+                - Integração com diário de classe
+                - Alertas de infrequência
             </div>
+            <div class="card-button">Acessar Módulo</div>
         </div>
-        """, unsafe_allow_html=True)
-        
-        if st.button(" ", key="btn_faltas"):
-            st.switch_page("pages/3_📅_Lançamento_Faltas.py")
+    </div>
+    """, unsafe_allow_html=True)
+    
+    if st.button(" ", key="btn_faltas"):
+        st.switch_page("pages/3_📅_Lançamento_Faltas.py")
 
 # Footer
 st.markdown("---")
