@@ -100,9 +100,9 @@ with col1:
             <div class="card-title">📋 Registro de Ocorrências</div>
             <div class="card-description">
                 Registre e acompanhe incidentes escolares com detalhamento completo:<br><br>
-                • Classificação por tipo<br>
-                • Registro de envolvidos<br>
-                • Acompanhamento temporal
+                • Acesse o histórico dos alunos<br>
+                • Registro de novas ocorrências<br>
+                • Download de histórico disponível
             </div>
         </div>
     </div>
@@ -120,9 +120,8 @@ with col2:
             <div class="card-description">
                 Controle completo da grade curricular:<br><br>
                 • Visualização por turma/professor<br>
-                • Alertas de conflitos<br>
+                • Integração com o TOTVS<br>
                 • Exportação para PDF<br>
-                • Integração com calendário
             </div>
         </div>
     </div>
@@ -139,10 +138,9 @@ with col3:
             <div class="card-title">📅 Gestão de Frequência</div>
             <div class="card-description">
                 Sistema completo de controle de presenças:<br><br>
-                • Lançamento em massa<br>
+                • Lançamento de faltas em massa<br>
                 • Relatórios automáticos<br>
-                • Integração com diário de classe<br>
-                • Alertas de infrequência
+                • Integração com TOTVS<br>
             </div>
         </div>
     </div>
