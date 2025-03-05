@@ -53,6 +53,7 @@ st.markdown("""
         color: #4b5563;
         line-height: 1.6;
         margin-bottom: 20px;
+        text-align: left;
     }
     
     /* Botão dentro do card */
@@ -79,7 +80,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Conteúdo Principal
-st.title("🏫 Bem-vindo ao Sistema Raiza")
+st.title("🏫 Bem-vindo à Raiza")
 st.markdown("""
     <div style="text-align: center; margin-bottom: 40px;">
         <h3 style="color: #4b5563; font-weight: 400;">
@@ -98,10 +99,10 @@ with col1:
         <div class="card-content">
             <div class="card-title">📋 Registro de Ocorrências</div>
             <div class="card-description">
-                Registre e acompanhe incidentes escolares com detalhamento completo:
-                - Classificação por tipo
-                - Registro de envolvidos
-                - Acompanhamento temporal
+                Registre e acompanhe incidentes escolares com detalhamento completo:<br><br>
+                • Classificação por tipo<br>
+                • Registro de envolvidos<br>
+                • Acompanhamento temporal
             </div>
         </div>
     </div>
@@ -117,11 +118,11 @@ with col2:
         <div class="card-content">
             <div class="card-title">🕒 Grade Horária Inteligente</div>
             <div class="card-description">
-                Controle completo da grade curricular:
-                - Visualização por turma/professor
-                - Alertas de conflitos
-                - Exportação para PDF
-                - Integração com calendário
+                Controle completo da grade curricular:<br><br>
+                • Visualização por turma/professor<br>
+                • Alertas de conflitos<br>
+                • Exportação para PDF<br>
+                • Integração com calendário
             </div>
         </div>
     </div>
@@ -137,11 +138,11 @@ with col3:
         <div class="card-content">
             <div class="card-title">📅 Gestão de Frequência</div>
             <div class="card-description">
-                Sistema completo de controle de presenças:
-                - Lançamento em massa
-                - Relatórios automáticos
-                - Integração com diário de classe
-                - Alertas de infrequência
+                Sistema completo de controle de presenças:<br><br>
+                • Lançamento em massa<br>
+                • Relatórios automáticos<br>
+                • Integração com diário de classe<br>
+                • Alertas de infrequência
             </div>
         </div>
     </div>
