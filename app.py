@@ -28,6 +28,7 @@ st.markdown("""
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        position: relative;
     }
     
     .card:hover {
@@ -46,19 +47,29 @@ st.markdown("""
         line-height: 1.6;
     }
     
-    /* Botões estilizados */
-    .stButton > button {
+    /* Área clicável invisível */
+    .clickable-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+        z-index: 1;
+    }
+    
+    /* Botão visual (apenas decorativo) */
+    .decorative-button {
+        position: relative;
+        z-index: 0;
         width: 100%;
         border: none;
         background: linear-gradient(135deg, #3b82f6, #1d4ed8);
         color: white !important;
+        padding: 10px 20px;
+        border-radius: 5px;
         font-weight: 500;
         transition: all 0.3s ease;
-    }
-    
-    .stButton > button:hover {
-        opacity: 0.9;
-        transform: scale(1.02);
     }
     
     /* Layout responsivo */
@@ -84,8 +95,10 @@ st.markdown("""
 col1, col2, col3 = st.columns(3)
 
 with col1:
+    # Card Ocorrências
     st.markdown("""
     <div class="card">
+        <div class="clickable-overlay"></div>
         <div>
             <div class="card-title">📋 Registro de Ocorrências</div>
             <div class="card-description">
@@ -96,16 +109,20 @@ with col1:
             </div>
         </div>
         <div style="text-align: center; margin-top: 20px;">
-            <button>Acessar Módulo</button>
+            <div class="decorative-button">Acessar Módulo</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
-    if st.button(" ", key="btn1"):
+    
+    # Botão invisível para funcionalidade
+    if st.button("Acessar Ocorrências", key="btn_ocorrencias"):
         st.switch_page("pages/1_📋_Ocorrências.py")
 
 with col2:
+    # Card Grade Horária
     st.markdown("""
     <div class="card">
+        <div class="clickable-overlay"></div>
         <div>
             <div class="card-title">🕒 Grade Horária Inteligente</div>
             <div class="card-description">
@@ -117,16 +134,19 @@ with col2:
             </div>
         </div>
         <div style="text-align: center; margin-top: 20px;">
-            <button>Acessar Módulo</button>
+            <div class="decorative-button">Acessar Módulo</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
-    if st.button(" ", key="btn2"):
+    
+    if st.button("Acessar Grade", key="btn_grade"):
         st.switch_page("pages/2_🕒_Grade_Horária.py")
 
 with col3:
+    # Card Faltas
     st.markdown("""
     <div class="card">
+        <div class="clickable-overlay"></div>
         <div>
             <div class="card-title">📅 Gestão de Frequência</div>
             <div class="card-description">
@@ -138,11 +158,12 @@ with col3:
             </div>
         </div>
         <div style="text-align: center; margin-top: 20px;">
-            <button>Acessar Módulo</button>
+            <div class="decorative-button">Acessar Módulo</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
-    if st.button(" ", key="btn3"):
+    
+    if st.button("Acessar Faltas", key="btn_faltas"):
         st.switch_page("pages/3_📅_Lançamento_Faltas.py")
 
 # Footer
