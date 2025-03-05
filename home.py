@@ -161,7 +161,7 @@ st.markdown("---")
 st.markdown("""
 <div style="text-align: center; padding: 20px; color: #6b7280;">
     <p style="font-size: 0.9rem;">
-        🚀 Versão 2.0 | Desenvolvido por <strong>Raiza</strong><br>
+        🚀 Versão 2.0 | Desenvolvido por <strong>BI</strong><br>
         📧 bi@raizaeducacao.com.br | 📞 (21) 98905-9301
     </p>
 </div>
