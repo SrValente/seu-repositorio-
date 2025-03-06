@@ -19,12 +19,12 @@ st.title("🔍 Consulta de Ocorrências - TOTVS")
 # Listagem de filiais
 # ------------------------------------------------------------------------------------
 filiais = [
-    {"NOMEFANTASIA": "COLÉGIO QI TIJUCA", "CODCOLIGADA": 2, "CODFILIAL": 2},
-    {"NOMEFANTASIA": "COLÉGIO QI BOTAFOGO", "CODCOLIGADA": 2, "CODFILIAL": 3},
-    {"NOMEFANTASIA": "COLÉGIO QI FREGUESIA", "CODCOLIGADA": 2, "CODFILIAL": 6},
-    {"NOMEFANTASIA": "COLÉGIO QI RIO 2",     "CODCOLIGADA": 2, "CODFILIAL": 7},
-    {"NOMEFANTASIA": "COLEGIO QI METROPOLITANO", "CODCOLIGADA": 6, "CODFILIAL": 1},
-    {"NOMEFANTASIA": "COLEGIO QI RECREIO",  "CODCOLIGADA": 10, "CODFILIAL": 1},
+    {"NOMEFANTASIA": "COLÉGIO QI TIJUCA",      "CODCOLIGADA": 2,  "CODFILIAL": 2},
+    {"NOMEFANTASIA": "COLÉGIO QI BOTAFOGO",    "CODCOLIGADA": 2,  "CODFILIAL": 3},
+    {"NOMEFANTASIA": "COLÉGIO QI FREGUESIA",   "CODCOLIGADA": 2,  "CODFILIAL": 6},
+    {"NOMEFANTASIA": "COLÉGIO QI RIO 2",       "CODCOLIGADA": 2,  "CODFILIAL": 7},
+    {"NOMEFANTASIA": "COLEGIO QI METROPOLITANO","CODCOLIGADA": 6,  "CODFILIAL": 1},
+    {"NOMEFANTASIA": "COLEGIO QI RECREIO",     "CODCOLIGADA": 10, "CODFILIAL": 1},
 ]
 
 filiais_opcoes = {f"{f['NOMEFANTASIA']} ({f['CODFILIAL']})": (f['CODCOLIGADA'], f['CODFILIAL']) for f in filiais}
@@ -48,7 +48,7 @@ def consultar_api(codigo, codcoligada=None, codfilial=None, ra=None, codperlet=N
 
     elif codigo == "RAIZA.0002":
         # Agora RAIZA.0002 exige TRES parâmetros: CODCOLIGADA, CODFILIAL e RA_NOME
-        if not ra_nome:  # Se não for passado nada, usar "%" como padrão
+        if not ra_nome:  # Se não vier nada, usar "%" por padrão
             ra_nome = "%"
         parametros = f"CODCOLIGADA={codcoligada};CODFILIAL={codfilial};RA_NOME={ra_nome}"
 
@@ -67,7 +67,6 @@ def consultar_api(codigo, codcoligada=None, codfilial=None, ra=None, codperlet=N
         st.error(f"❌ Erro na requisição: {e}")
         return None
 
-    # Tratamento de erro HTTP
     if response.status_code == 200:
         try:
             return response.json()
@@ -88,27 +87,25 @@ def consultar_api(codigo, codcoligada=None, codfilial=None, ra=None, codperlet=N
 # ------------------------------------------------------------------------------------
 id_perlet = None
 if codcoligada and codfilial:
-    perlet_info = consultar_api("RAIZA.0008", codcoligada=codcoligada, codfilial=codfilial, codperlet=2025)
+    perlet_info = consultar_api(
+        "RAIZA.0008",
+        codcoligada=codcoligada,
+        codfilial=codfilial,
+        codperlet=2025
+    )
     if isinstance(perlet_info, list) and len(perlet_info) > 0:
         id_perlet = perlet_info[0].get("IDPERLET")
 
 # ------------------------------------------------------------------------------------
-# Campo de entrada para filtrar RA ou Nome (default = '%')
-# ------------------------------------------------------------------------------------
-ra_nome_input = st.text_input(
-    "Digite RA ou Nome do aluno (use '%' para listar todos):",
-    value="%"
-)
-
-# ------------------------------------------------------------------------------------
 # Selecionar Aluno via RAIZA.0002 (exige CODCOLIGADA, CODFILIAL, RA_NOME)
+# Sempre passamos RA_NOME="%" (ou seja, listar todos)
 # ------------------------------------------------------------------------------------
 if codcoligada and codfilial:
     alunos = consultar_api(
         "RAIZA.0002",
         codcoligada=codcoligada,
         codfilial=codfilial,
-        ra_nome=ra_nome_input  # <-- Passando RA_NOME aqui
+        ra_nome="%"  # <-- Oculto para o usuário, mas passamos "%" fixo
     )
 
     if alunos is not None and len(alunos) > 0:
@@ -122,10 +119,10 @@ if codcoligada and codfilial:
             aluno_selecionado = st.selectbox("Selecione o Aluno (RA - Nome):", list(alunos_opcoes.keys()))
             ra_aluno = alunos_opcoes[aluno_selecionado]
         else:
-            st.warning("⚠ Nenhum aluno encontrado para o filtro fornecido.")
+            st.warning("⚠ Nenhum aluno encontrado na filial.")
             ra_aluno = None
     else:
-        st.warning("⚠ Nenhum aluno encontrado para essa filial ou filtro.")
+        st.warning("⚠ Nenhum aluno encontrado para essa filial.")
         ra_aluno = None
 else:
     ra_aluno = None
@@ -171,7 +168,7 @@ if ra_aluno and codcoligada and codfilial:
         grupo_ocorrencia = 4
         descricao_grupo = "Grupo Comportamental"
 
-        # Formatação da data com timezone (ajuste para UTC se necessário)
+        # Data/hora atual
         data_atual = datetime.now().astimezone().strftime("%Y-%m-%dT%H:%M:%S%z")
 
         if id_perlet:
