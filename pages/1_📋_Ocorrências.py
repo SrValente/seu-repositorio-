@@ -22,9 +22,9 @@ filiais = [
     {"NOMEFANTASIA": "COLÉGIO QI TIJUCA", "CODCOLIGADA": 2, "CODFILIAL": 2},
     {"NOMEFANTASIA": "COLÉGIO QI BOTAFOGO", "CODCOLIGADA": 2, "CODFILIAL": 3},
     {"NOMEFANTASIA": "COLÉGIO QI FREGUESIA", "CODCOLIGADA": 2, "CODFILIAL": 6},
-    {"NOMEFANTASIA": "COLÉGIO QI RIO 2", "CODCOLIGADA": 2, "CODFILIAL": 7},
+    {"NOMEFANTASIA": "COLÉGIO QI RIO 2",     "CODCOLIGADA": 2, "CODFILIAL": 7},
     {"NOMEFANTASIA": "COLEGIO QI METROPOLITANO", "CODCOLIGADA": 6, "CODFILIAL": 1},
-    {"NOMEFANTASIA": "COLEGIO QI RECREIO", "CODCOLIGADA": 10, "CODFILIAL": 1},
+    {"NOMEFANTASIA": "COLEGIO QI RECREIO",  "CODCOLIGADA": 10, "CODFILIAL": 1},
 ]
 
 filiais_opcoes = {f"{f['NOMEFANTASIA']} ({f['CODFILIAL']})": (f['CODCOLIGADA'], f['CODFILIAL']) for f in filiais}
@@ -36,8 +36,7 @@ codcoligada, codfilial = filiais_opcoes.get(filial_escolhida, (None, None))
 # ------------------------------------------------------------------------------------
 def consultar_api(codigo, codcoligada=None, codfilial=None, ra=None, codperlet=None, ra_nome=None):
     """
-    Monta os parâmetros na ordem exata que cada 'codigo' (RAIZA.000x) precisa,
-    evitando erros de 'quantidade de parâmetros' ou 'falha de conversão'.
+    Monta os parâmetros na ordem exata que cada 'codigo' (RAIZA.000x) precisa.
     """
     if codigo == "RAIZA.0008":
         # SELECT ... WHERE CODCOLIGADA=@CODCOLIGADA, CODFILIAL=@CODFILIAL, CODPERLET=@CODPERLET
@@ -48,9 +47,8 @@ def consultar_api(codigo, codcoligada=None, codfilial=None, ra=None, codperlet=N
         parametros = f"CODCOLIGADA={codcoligada};CODFILIAL={codfilial};RA={ra}"
 
     elif codigo == "RAIZA.0002":
-        # AGORA incluiu RA_NOME para filtrar por LIKE
-        # SELECT ... WHERE CODCOLIGADA=@CODCOLIGADA, CODFILIAL=@CODFILIAL, (F.RA + ' - ' + G.NOME) LIKE :RA_NOME
-        if not ra_nome:
+        # Agora RAIZA.0002 exige TRES parâmetros: CODCOLIGADA, CODFILIAL e RA_NOME
+        if not ra_nome:  # Se não for passado nada, usar "%" como padrão
             ra_nome = "%"
         parametros = f"CODCOLIGADA={codcoligada};CODFILIAL={codfilial};RA_NOME={ra_nome}"
 
@@ -69,6 +67,7 @@ def consultar_api(codigo, codcoligada=None, codfilial=None, ra=None, codperlet=N
         st.error(f"❌ Erro na requisição: {e}")
         return None
 
+    # Tratamento de erro HTTP
     if response.status_code == 200:
         try:
             return response.json()
@@ -85,7 +84,7 @@ def consultar_api(codigo, codcoligada=None, codfilial=None, ra=None, codperlet=N
         return None
 
 # ------------------------------------------------------------------------------------
-# Buscar IDPERLET via RAIZA.0008 (exige CODCOLIGADA, CODFILIAL, CODPERLET)
+# Buscar IDPERLET via RAIZA.0008 (exige CODCOLIGADA, CODFILIAL, CODPERLET=2025)
 # ------------------------------------------------------------------------------------
 id_perlet = None
 if codcoligada and codfilial:
@@ -98,7 +97,7 @@ if codcoligada and codfilial:
 # ------------------------------------------------------------------------------------
 ra_nome_input = st.text_input(
     "Digite RA ou Nome do aluno (use '%' para listar todos):",
-    value="%"  # padrão retorna todos
+    value="%"
 )
 
 # ------------------------------------------------------------------------------------
@@ -109,18 +108,16 @@ if codcoligada and codfilial:
         "RAIZA.0002",
         codcoligada=codcoligada,
         codfilial=codfilial,
-        ra_nome=ra_nome_input
+        ra_nome=ra_nome_input  # <-- Passando RA_NOME aqui
     )
 
     if alunos is not None and len(alunos) > 0:
-        # Aqui usamos RA_NOME como "label" do selectbox
-        # e pegamos RA como valor que vamos usar nas ocorrências
+        # Montamos {RA_NOME: RA} para exibir no selectbox
         alunos_opcoes = {
             a["RA_NOME"]: a["RA"]
             for a in alunos
             if "RA" in a and "RA_NOME" in a
         }
-
         if len(alunos_opcoes) > 0:
             aluno_selecionado = st.selectbox("Selecione o Aluno (RA - Nome):", list(alunos_opcoes.keys()))
             ra_aluno = alunos_opcoes[aluno_selecionado]
