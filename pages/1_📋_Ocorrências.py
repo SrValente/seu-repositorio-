@@ -34,30 +34,27 @@ codcoligada, codfilial = filiais_opcoes.get(filial_escolhida, (None, None))
 # ------------------------------------------------------------------------------------
 # Função de chamada à API TOTVS com lógica condicional para cada RAIZA
 # ------------------------------------------------------------------------------------
-def consultar_api(codigo, codcoligada=None, codfilial=None, ra=None, codperlet=None):
+def consultar_api(codigo, codcoligada=None, codfilial=None, ra=None, codperlet=None, ra_nome=None):
     """
     Monta os parâmetros na ordem exata que cada 'codigo' (RAIZA.000x) precisa,
     evitando erros de 'quantidade de parâmetros' ou 'falha de conversão'.
     """
-    # Dependendo do código, definimos a ordem e quais parâmetros usar.
     if codigo == "RAIZA.0008":
         # SELECT ... WHERE CODCOLIGADA=@CODCOLIGADA, CODFILIAL=@CODFILIAL, CODPERLET=@CODPERLET
-        # => Precisamos passar CODCOLIGADA, CODFILIAL, CODPERLET nessa ordem
         parametros = f"CODCOLIGADA={codcoligada};CODFILIAL={codfilial};CODPERLET={codperlet}"
 
     elif codigo == "RAIZA.0001":
         # SELECT ... WHERE CODCOLIGADA=@CODCOLIGADA, CODFILIAL=@CODFILIAL, RA=@RA
-        # => Precisamos passar CODCOLIGADA, CODFILIAL, RA nessa ordem
         parametros = f"CODCOLIGADA={codcoligada};CODFILIAL={codfilial};RA={ra}"
 
     elif codigo == "RAIZA.0002":
-        # Exemplo: se só precisa CODCOLIGADA e CODFILIAL
-        # => Precisamos passar CODCOLIGADA, CODFILIAL (caso esse seja o SQL real)
-        parametros = f"CODCOLIGADA={codcoligada};CODFILIAL={codfilial}"
+        # AGORA incluiu RA_NOME para filtrar por LIKE
+        # SELECT ... WHERE CODCOLIGADA=@CODCOLIGADA, CODFILIAL=@CODFILIAL, (F.RA + ' - ' + G.NOME) LIKE :RA_NOME
+        if not ra_nome:
+            ra_nome = "%"
+        parametros = f"CODCOLIGADA={codcoligada};CODFILIAL={codfilial};RA_NOME={ra_nome}"
 
     else:
-        # Caso queira tratar outros códigos ou fallback genérico
-        # Se tiver que lidar com outro SELECT que exija outra ordem, adicione elif
         parametros = ""
 
     url = f"{BASE_URL}/{codigo}/0/S"
@@ -72,7 +69,6 @@ def consultar_api(codigo, codcoligada=None, codfilial=None, ra=None, codperlet=N
         st.error(f"❌ Erro na requisição: {e}")
         return None
 
-    # Tratamento de erro HTTP
     if response.status_code == 200:
         try:
             return response.json()
@@ -93,31 +89,46 @@ def consultar_api(codigo, codcoligada=None, codfilial=None, ra=None, codperlet=N
 # ------------------------------------------------------------------------------------
 id_perlet = None
 if codcoligada and codfilial:
-    # Passamos CODPERLET=2025, pois o SQL de RAIZA.0008 precisa de 3 parâmetros
-    perlet_info = consultar_api(
-        "RAIZA.0008", 
-        codcoligada=codcoligada, 
-        codfilial=codfilial, 
-        codperlet=2025
-    )
+    perlet_info = consultar_api("RAIZA.0008", codcoligada=codcoligada, codfilial=codfilial, codperlet=2025)
     if isinstance(perlet_info, list) and len(perlet_info) > 0:
-        id_perlet = perlet_info[0]["IDPERLET"]
+        id_perlet = perlet_info[0].get("IDPERLET")
 
 # ------------------------------------------------------------------------------------
-# Selecionar Aluno via RAIZA.0002 (exige CODCOLIGADA, CODFILIAL)
+# Campo de entrada para filtrar RA ou Nome (default = '%')
+# ------------------------------------------------------------------------------------
+ra_nome_input = st.text_input(
+    "Digite RA ou Nome do aluno (use '%' para listar todos):",
+    value="%"  # padrão retorna todos
+)
+
+# ------------------------------------------------------------------------------------
+# Selecionar Aluno via RAIZA.0002 (exige CODCOLIGADA, CODFILIAL, RA_NOME)
 # ------------------------------------------------------------------------------------
 if codcoligada and codfilial:
-    alunos = consultar_api("RAIZA.0002", codcoligada=codcoligada, codfilial=codfilial)
-    if alunos is not None:
-        alunos_opcoes = {f"{a['NOME']} ({a['RA']})": a["RA"] for a in alunos if "RA" in a and "NOME" in a}
+    alunos = consultar_api(
+        "RAIZA.0002",
+        codcoligada=codcoligada,
+        codfilial=codfilial,
+        ra_nome=ra_nome_input
+    )
+
+    if alunos is not None and len(alunos) > 0:
+        # Aqui usamos RA_NOME como "label" do selectbox
+        # e pegamos RA como valor que vamos usar nas ocorrências
+        alunos_opcoes = {
+            a["RA_NOME"]: a["RA"]
+            for a in alunos
+            if "RA" in a and "RA_NOME" in a
+        }
 
         if len(alunos_opcoes) > 0:
-            aluno_selecionado = st.selectbox("Selecione o Aluno:", list(alunos_opcoes.keys()))
+            aluno_selecionado = st.selectbox("Selecione o Aluno (RA - Nome):", list(alunos_opcoes.keys()))
             ra_aluno = alunos_opcoes[aluno_selecionado]
         else:
-            st.warning("⚠ Nenhum aluno encontrado para essa filial.")
+            st.warning("⚠ Nenhum aluno encontrado para o filtro fornecido.")
             ra_aluno = None
     else:
+        st.warning("⚠ Nenhum aluno encontrado para essa filial ou filtro.")
         ra_aluno = None
 else:
     ra_aluno = None
@@ -133,9 +144,9 @@ if ra_aluno and codcoligada and codfilial:
             "RAIZA.0001",
             codcoligada=codcoligada,
             codfilial=codfilial,
-            ra=ra_aluno  # RA = alfanumérico
+            ra=ra_aluno
         )
-        if isinstance(ocorrencias, list) and ocorrencias:
+        if isinstance(ocorrencias, list) and len(ocorrencias) > 0:
             st.success("✅ Consulta realizada com sucesso!")
             df = pd.DataFrame(ocorrencias)
             st.dataframe(df)
@@ -211,7 +222,6 @@ if ra_aluno and codcoligada and codfilial:
                     verify=False
                 )
 
-                # Tratamento detalhado da resposta da inclusão
                 if response.status_code == 200:
                     try:
                         root = ET.fromstring(response.content)
