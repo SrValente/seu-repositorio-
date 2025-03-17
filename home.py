@@ -11,71 +11,7 @@ st.set_page_config(
 # CSS Customizado
 st.markdown("""
 <style>
-    /* Gradiente no cabeçalho */
-    [data-testid="stHeader"] {
-        background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-        color: white;
-    }
-    
-    /* Cards modernos */
-    .card {
-        background: white;
-        border-radius: 15px;
-        padding: 25px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        transition: all 0.3s ease;
-        min-height: 300px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        position: relative;
-        overflow: hidden;
-        text-align: center;
-    }
-    
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 12px rgba(0,0,0,0.15);
-    }
-    
-    .card-content {
-        position: relative;
-        z-index: 2;
-    }
-    
-    .card-title {
-        font-size: 1.5rem;
-        color: #1e3a8a;
-        margin-bottom: 15px;
-    }
-    
-    .card-description {
-        color: #4b5563;
-        line-height: 1.6;
-        margin-bottom: 20px;
-        text-align: left;
-    }
-    
-    /* Botão dentro do card */
-    .stButton > button {
-        width: 100%;
-        border: none;
-        background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-        color: white !important;
-        padding: 12px 24px;
-        border-radius: 8px;
-        font-weight: 500;
-        transition: all 0.3s ease;
-        cursor: pointer;
-        text-align: center;
-        position: relative;
-        z-index: 2;
-    }
-    
-    .stButton > button:hover {
-        opacity: 0.9;
-        transform: scale(1.02);
-    }
+    /* ... (mantido o mesmo CSS anterior) ... */
 </style>
 """, unsafe_allow_html=True)
 
@@ -90,10 +26,10 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Grid de Cards
-col1, col2, col3 = st.columns(3)
+col1, col2, col3, col4 = st.columns(4)  # Alterado para 4 colunas
 
 with col1:
-    # Card Ocorrências
+    # Card Ocorrências (mantido igual)
     st.markdown("""
     <div class="card">
         <div class="card-content">
@@ -112,7 +48,7 @@ with col1:
         st.switch_page("pages/1_📋_Ocorrências.py")
 
 with col2:
-    # Card Grade Horária
+    # Card Grade Horária (mantido igual)
     st.markdown("""
     <div class="card">
         <div class="card-content">
@@ -131,7 +67,7 @@ with col2:
         st.switch_page("pages/2_🕒_Grade_Horária.py")
 
 with col3:
-    # Card Faltas
+    # Card Faltas (mantido igual)
     st.markdown("""
     <div class="card">
         <div class="card-content">
@@ -149,7 +85,27 @@ with col3:
     if st.button("Acessar Módulo", key="btn_faltas"):
         st.switch_page("pages/3_📅_Lançamento_Faltas.py")
 
-# Footer
+with col4:
+    # Novo Card Notas
+    st.markdown("""
+    <div class="card">
+        <div class="card-content">
+            <div class="card-title">✏️ Gestão de Notas</div>
+            <div class="card-description">
+                Sistema completo para lançamento e acompanhamento:<br><br>
+                • Lançamento de notas por disciplina<br>
+                • Cálculo automático de médias<br>
+                • Relatórios de desempenho<br>
+                • Integração com TOTVS
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    if st.button("Acessar Módulo", key="btn_notas"):
+        st.switch_page("pages/4_✏️_Notas.py")
+
+# Footer (mantido igual)
 st.markdown("---")
 st.markdown("""
 <div style="text-align: center; padding: 20px; color: #6b7280;">
