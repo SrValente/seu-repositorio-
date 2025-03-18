@@ -60,7 +60,7 @@ st.markdown("""
 st.markdown("""
 <div class="card">
     <div class="card-content">
-        <div class="card-title">🙎🏻♂️ Central do Aluno</div>
+        <div class="card-title">🙎🏻 Central do Aluno</div>
         <div class="card-description">
             Portal completo para gestão de informações estudantis:<br><br>
             • Consulta de dados cadastrais<br>
@@ -73,7 +73,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 if st.button("Acessar Central do Aluno", key="btn_central"):
-    st.switch_page("pages/0_🙎🏻♂️_Central_Aluno.py")
+    st.switch_page("pages/0_🙎🏻‍♂️_Central_Aluno.py")
 
 # Grid de Cards Secundários
 col1, col2, col3, col4 = st.columns(4)
