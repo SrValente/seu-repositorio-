@@ -156,13 +156,12 @@ with col5:
 st.markdown("""
 <div class="card">
     <div class="card-content">
-        <div class="card-title">💎 Central do Aluno</div>
+        <div class="card-title">💎 Central do Aluno (EM BREVE)</div>
         <div class="card-description">
             Portal completo para gestão de informações estudantis:<br><br>
             • Consulta de dados cadastrais<br>
             • Histórico escolar completo<br>
             • Boletim online atualizado<br>
-            • FERRAMENTA DISPONÍVEL EM BREVE
         </div>
     </div>
 </div>
