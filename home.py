@@ -3,7 +3,7 @@ import streamlit as st
 # Configuração da página
 st.set_page_config(
     page_title="Raiza - Gestão Escolar",
-    page_icon="🏫",
+    page_icon="🏩",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
@@ -47,7 +47,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Conteúdo Principal
-st.title("🏫 Bem-vindo à Raiza")
+st.title("🏩 Bem-vindo à Raiza")
 st.markdown("""
     <div style="text-align: center; margin-bottom: 40px;">
         <h3 style="color: #4b5563; font-weight: 400;">
@@ -60,7 +60,7 @@ st.markdown("""
 st.markdown("""
 <div class="card">
     <div class="card-content">
-        <div class="card-title">🙎🏻 Central do Aluno</div>
+        <div class="card-title">💎 Central do Aluno</div>
         <div class="card-description">
             Portal completo para gestão de informações estudantis:<br><br>
             • Consulta de dados cadastrais<br>
@@ -76,13 +76,13 @@ if st.button("Acessar Central do Aluno", key="btn_central"):
     st.switch_page("pages/Central_Aluno.py")
 
 # Grid de Cards Secundários
-col1, col2, col3, col4 = st.columns(4)
+col1, col2, col3, col4, col5 = st.columns(5)
 
 with col1:
     st.markdown("""
     <div class="card">
         <div class="card-content">
-            <div class="card-title">📋 Registro de Ocorrências</div>
+            <div class="card-title">🗉️ Registro de Ocorrências</div>
             <div class="card-description">
                 Registre e acompanhe incidentes escolares:<br><br>
                 • Histórico completo de alunos<br>
@@ -94,7 +94,7 @@ with col1:
     """, unsafe_allow_html=True)
     
     if st.button("Acessar Módulo", key="btn_ocorrencias"):
-        st.switch_page("pages/1_📋_Ocorrências.py")
+        st.switch_page("pages/1_🗉️_Ocorrências.py")
 
 with col2:
     st.markdown("""
@@ -118,7 +118,7 @@ with col3:
     st.markdown("""
     <div class="card">
         <div class="card-content">
-            <div class="card-title">📅 Gestão de Frequência</div>
+            <div class="card-title">🗓 Gestão de Frequência</div>
             <div class="card-description">
                 Controle de presenças integrado:<br><br>
                 • Lançamento em massa<br>
@@ -130,7 +130,7 @@ with col3:
     """, unsafe_allow_html=True)
     
     if st.button("Acessar Módulo", key="btn_faltas"):
-        st.switch_page("pages/3_📅_Lançamento_Faltas.py")
+        st.switch_page("pages/3_🗓_Lançamento_Faltas.py")
 
 with col4:
     st.markdown("""
@@ -149,6 +149,24 @@ with col4:
     
     if st.button("Acessar Módulo", key="btn_notas"):
         st.switch_page("pages/4_✏️_Notas.py")
+
+with col5:
+    st.markdown("""
+    <div class="card">
+        <div class="card-content">
+            <div class="card-title">🛂 Consulta de Planos</div>
+            <div class="card-description">
+                Acesse informações sobre planos educacionais:<br><br>
+                • Comparação entre planos<br>
+                • Regras e valores aplicáveis<br>
+                • Simulação financeira
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    if st.button("Acessar Módulo", key="btn_planos"):
+        st.switch_page("pages/5_🛂_Consulta_Planos.py")
 
 # Footer
 st.markdown("---")
