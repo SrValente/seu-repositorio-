@@ -79,7 +79,7 @@ def main():
     codfilial = f_info["CODFILIAL"]
     
     st.markdown("---")
-    st.subheader("Planos de Pagamento (RAIZA.0015)")
+    st.subheader("Planos de Pagamento")
     planos = obter_planos_pagamento(codcoligada, codfilial)
     if not planos:
         st.error("Nenhum plano de pagamento encontrado.")
@@ -87,7 +87,7 @@ def main():
     plano_selecionado = st.selectbox("Selecione o Plano de Pagamento:", planos)
     
     st.markdown("---")
-    st.subheader("Dados Detalhados de Pagamento (RAIZA.0014)")
+    st.subheader("Dados Detalhados de Pagamento")
     dados = obter_dados_pagamento(codcoligada, codfilial, plano_selecionado)
     if dados:
         df = pd.DataFrame(dados)
