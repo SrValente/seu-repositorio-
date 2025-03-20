@@ -56,27 +56,8 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# Card Central do Aluno em Destaque
-st.markdown("""
-<div class="card">
-    <div class="card-content">
-        <div class="card-title">💎 Central do Aluno</div>
-        <div class="card-description">
-            Portal completo para gestão de informações estudantis:<br><br>
-            • Consulta de dados cadastrais<br>
-            • Histórico escolar completo<br>
-            • Boletim online atualizado<br>
-            • FERRAMENTA DISPONÍVEL EM BREVE
-        </div>
-    </div>
-</div>
-""", unsafe_allow_html=True)
-
-if st.button("Acessar Central do Aluno", key="btn_central"):
-    st.switch_page("pages/Central_Aluno.py")
-
-# Grid de Cards Secundários
-col1, col2, col3, col4, col5 = st.columns(5)
+# Seção 1: Registro de Ocorrências e Gestão de Notas
+col1, col2 = st.columns(2)
 
 with col1:
     st.markdown("""
@@ -100,6 +81,27 @@ with col2:
     st.markdown("""
     <div class="card">
         <div class="card-content">
+            <div class="card-title">✏️ Gestão de Notas</div>
+            <div class="card-description">
+                Sistema completo de avaliação:<br><br>
+                • Lançamento por disciplina<br>
+                • Cálculo de médias<br>
+                • Análise de desempenho
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    if st.button("Acessar Módulo", key="btn_notas"):
+        st.switch_page("pages/4_✏️_Notas.py")
+
+# Seção 2: Grade Horária, Gestão de Frequência e Consulta de Planos
+col3, col4, col5 = st.columns(3)
+
+with col3:
+    st.markdown("""
+    <div class="card">
+        <div class="card-content">
             <div class="card-title">🕒 Grade Horária</div>
             <div class="card-description">
                 Gestão inteligente de horários:<br><br>
@@ -114,7 +116,7 @@ with col2:
     if st.button("Acessar Módulo", key="btn_grade"):
         st.switch_page("pages/2_🕒_Grade_Horária.py")
 
-with col3:
+with col4:
     st.markdown("""
     <div class="card">
         <div class="card-content">
@@ -131,24 +133,6 @@ with col3:
     
     if st.button("Acessar Módulo", key="btn_faltas"):
         st.switch_page("pages/3_🗓_Lançamento_Faltas.py")
-
-with col4:
-    st.markdown("""
-    <div class="card">
-        <div class="card-content">
-            <div class="card-title">✏️ Gestão de Notas</div>
-            <div class="card-description">
-                Sistema completo de avaliação:<br><br>
-                • Lançamento por disciplina<br>
-                • Cálculo de médias<br>
-                • Análise de desempenho
-            </div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    if st.button("Acessar Módulo", key="btn_notas"):
-        st.switch_page("pages/4_✏️_Notas.py")
 
 with col5:
     st.markdown("""
@@ -167,6 +151,25 @@ with col5:
     
     if st.button("Acessar Módulo", key="btn_planos"):
         st.switch_page("pages/5_🛂_Consulta_Planos.py")
+
+# Seção 3: Central do Aluno
+st.markdown("""
+<div class="card">
+    <div class="card-content">
+        <div class="card-title">💎 Central do Aluno</div>
+        <div class="card-description">
+            Portal completo para gestão de informações estudantis:<br><br>
+            • Consulta de dados cadastrais<br>
+            • Histórico escolar completo<br>
+            • Boletim online atualizado<br>
+            • FERRAMENTA DISPONÍVEL EM BREVE
+        </div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+if st.button("Acessar Central do Aluno", key="btn_central"):
+    st.switch_page("pages/Central_Aluno.py")
 
 # Footer
 st.markdown("---")
