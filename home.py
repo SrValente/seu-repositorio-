@@ -56,27 +56,8 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# Card Central do Aluno em Destaque
-st.markdown("""
-<div class="card">
-    <div class="card-content">
-        <div class="card-title">🙎🏻 Central do Aluno</div>
-        <div class="card-description">
-            Portal completo para gestão de informações estudantis:<br><br>
-            • Consulta de dados cadastrais<br>
-            • Histórico escolar completo<br>
-            • Boletim online atualizado<br>
-            • Comunicação direta com a escola
-        </div>
-    </div>
-</div>
-""", unsafe_allow_html=True)
-
-if st.button("Acessar Central do Aluno", key="btn_central"):
-    st.switch_page("pages/Central_Aluno.py")
-
-# Grid de Cards Secundários
-col1, col2, col3, col4 = st.columns(4)
+# Grid de Cards para Navegação
+col1, col2, col3, col4, col5 = st.columns(5)
 
 with col1:
     st.markdown("""
@@ -94,7 +75,7 @@ with col1:
     """, unsafe_allow_html=True)
     
     if st.button("Acessar Módulo", key="btn_ocorrencias"):
-        st.switch_page("pages/1_📋_Ocorrências.py")
+        st.experimental_set_query_params(page="📋 Registro de Ocorrências")
 
 with col2:
     st.markdown("""
@@ -112,7 +93,7 @@ with col2:
     """, unsafe_allow_html=True)
     
     if st.button("Acessar Módulo", key="btn_grade"):
-        st.switch_page("pages/2_🕒_Grade_Horária.py")
+        st.experimental_set_query_params(page="🕒 Grade Horária")
 
 with col3:
     st.markdown("""
@@ -130,7 +111,7 @@ with col3:
     """, unsafe_allow_html=True)
     
     if st.button("Acessar Módulo", key="btn_faltas"):
-        st.switch_page("pages/3_📅_Lançamento_Faltas.py")
+        st.experimental_set_query_params(page="📅 Gestão de Frequência")
 
 with col4:
     st.markdown("""
@@ -148,7 +129,25 @@ with col4:
     """, unsafe_allow_html=True)
     
     if st.button("Acessar Módulo", key="btn_notas"):
-        st.switch_page("pages/4_✏️_Notas.py")
+        st.experimental_set_query_params(page="✏️ Gestão de Notas")
+
+with col5:
+    st.markdown("""
+    <div class="card">
+        <div class="card-content">
+            <div class="card-title">💳 Consulta de Planos</div>
+            <div class="card-description">
+                Visualize e gerencie os planos de pagamento:<br><br>
+                • Consulta de planos disponíveis<br>
+                • Detalhamento de pagamentos<br>
+                • Atualizações e ajustes
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    if st.button("Acessar Módulo", key="btn_planos"):
+        st.experimental_set_query_params(page="💳 Consulta de Planos")
 
 # Footer
 st.markdown("---")
