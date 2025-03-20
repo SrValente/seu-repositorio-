@@ -3,7 +3,7 @@ import streamlit as st
 # Configuração da página
 st.set_page_config(
     page_title="Raiza - Gestão Escolar",
-    page_icon="🏩",
+    page_icon="🏫",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
@@ -66,7 +66,7 @@ st.markdown("""
             • Consulta de dados cadastrais<br>
             • Histórico escolar completo<br>
             • Boletim online atualizado<br>
-            • Comunicação direta com a escola
+            • FERRAMENTA DISPONÍVEL EM BREVE
         </div>
     </div>
 </div>
