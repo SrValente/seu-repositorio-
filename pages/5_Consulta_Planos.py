@@ -1,162 +1,99 @@
 import streamlit as st
+import pandas as pd
+import requests
+from requests.auth import HTTPBasicAuth
+import urllib3
 
-# Configuração da página
-st.set_page_config(
-    page_title="Raiza - Gestão Escolar",
-    page_icon="🏫",
-    layout="wide",
-    initial_sidebar_state="collapsed"
-)
+# Desabilitar avisos SSL (para ambientes de teste)
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-# CSS Customizado
-st.markdown("""
-<style>
-    .card {
-        background: white;
-        border-radius: 15px;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
-        margin-bottom: 25px;
-        overflow: hidden;
-    }
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
-    }
-    .card-content {
-        padding: 25px;
-    }
-    .card-title {
-        font-size: 1.4rem;
-        font-weight: 600;
-        color: #1f2937;
-        margin-bottom: 15px;
-    }
-    .card-description {
-        font-size: 0.95rem;
-        color: #6b7280;
-        line-height: 1.6;
-    }
-    .stButton>button {
-        width: 100%;
-        background: #3b82f6 !important;
-        color: white !important;
-        border: none !important;
-    }
-</style>
-""", unsafe_allow_html=True)
+# -------------------------------
+# Configurações e Credenciais
+# -------------------------------
+USERNAME = "p_heflo"
+PASSWORD = "Q0)G$sW]rj"
+BASE_URL = "https://raizeducacao160286.rm.cloudtotvs.com.br:8051/api/framework/v1/consultaSQLServer/RealizaConsulta"
+# Filtro fixo para o campo CODPERLET (não há seleção de período letivo)
+CODPERLET = 2024
 
-# Conteúdo Principal
-st.title("🏫 Bem-vindo à Raiza")
-st.markdown("""
-    <div style="text-align: center; margin-bottom: 40px;">
-        <h3 style="color: #4b5563; font-weight: 400;">
-            Plataforma Integrada de Gestão Escolar
-        </h3>
-    </div>
-""", unsafe_allow_html=True)
+# -------------------------------
+# Função para obter as filiais
+# -------------------------------
+def obter_filiais():
+    return [
+        {"NOMEFANTASIA": "COLÉGIO QI TIJUCA",       "CODCOLIGADA": 2,  "CODFILIAL": 2},
+        {"NOMEFANTASIA": "COLÉGIO QI BOTAFOGO",     "CODCOLIGADA": 2,  "CODFILIAL": 3},
+        {"NOMEFANTASIA": "COLÉGIO QI FREGUESIA",    "CODCOLIGADA": 2,  "CODFILIAL": 6},
+        {"NOMEFANTASIA": "COLÉGIO QI RIO 2",        "CODCOLIGADA": 2,  "CODFILIAL": 7},
+        {"NOMEFANTASIA": "COLEGIO QI METROPOLITANO","CODCOLIGADA": 6,  "CODFILIAL": 1},
+        {"NOMEFANTASIA": "COLEGIO QI RECREIO",      "CODCOLIGADA": 10, "CODFILIAL": 1},
+    ]
 
-# Card Central do Aluno em Destaque
-st.markdown("""
-<div class="card">
-    <div class="card-content">
-        <div class="card-title">🙎🏻 Central do Aluno</div>
-        <div class="card-description">
-            Portal completo para gestão de informações estudantis:<br><br>
-            • Consulta de dados cadastrais<br>
-            • Histórico escolar completo<br>
-            • Boletim online atualizado<br>
-            • Comunicação direta com a escola
-        </div>
-    </div>
-</div>
-""", unsafe_allow_html=True)
+# -------------------------------
+# Consulta de Planos de Pagamento (RAIZA.0015)
+# -------------------------------
+def obter_planos_pagamento(codcoligada, codfilial):
+    url = f"{BASE_URL}/RAIZA.0015/0/S"
+    # Parâmetros fixos: CODPERLET, CODCOLIGADA e CODFILIAL
+    parametros = f"CODPERLET={CODPERLET};CODCOLIGADA={codcoligada};CODFILIAL={codfilial}"
+    params = {"parameters": parametros}
+    resp = requests.get(url, auth=HTTPBasicAuth(USERNAME, PASSWORD), params=params, verify=False)
+    if resp.status_code == 200:
+        dados = resp.json()
+        if isinstance(dados, list):
+            # Supõe-se que a query retorne o campo "NOME_PGTO"
+            planos = [item.get("NOME_PGTO") for item in dados if item.get("NOME_PGTO")]
+            return sorted(list(set(planos)))
+    st.error(f"Erro ao obter planos de pagamento: {resp.status_code}")
+    return []
 
-if st.button("Acessar Central do Aluno", key="btn_central"):
-    st.experimental_set_query_params(page="Central_Aluno")
+# -------------------------------
+# Consulta de Dados Detalhados (RAIZA.0014)
+# -------------------------------
+def obter_dados_pagamento(codcoligada, codfilial, nome_pgto):
+    url = f"{BASE_URL}/RAIZA.0014/0/S"
+    # Inclui o filtro fixo CODPERLET e filtra pelo plano (NOME_PGTO)
+    parametros = f"CODPERLET={CODPERLET};CODCOLIGADA={codcoligada};CODFILIAL={codfilial};NOME_PGTO={nome_pgto}"
+    params = {"parameters": parametros}
+    resp = requests.get(url, auth=HTTPBasicAuth(USERNAME, PASSWORD), params=params, verify=False)
+    if resp.status_code == 200:
+        return resp.json()
+    st.error(f"Erro ao obter dados de pagamento (RAIZA.0014): {resp.status_code}")
+    return []
 
-# Grid de Cards Secundários
-col1, col2, col3, col4 = st.columns(4)
-
-with col1:
-    st.markdown("""
-    <div class="card">
-        <div class="card-content">
-            <div class="card-title">📋 Registro de Ocorrências</div>
-            <div class="card-description">
-                Registre e acompanhe incidentes escolares:<br><br>
-                • Histórico completo de alunos<br>
-                • Sistema de classificação<br>
-                • Relatórios personalizados
-            </div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+# -------------------------------
+# Aplicação Principal
+# -------------------------------
+def main():
+    st.title("Central de Pagamento - Consulta TOTVS")
     
-    if st.button("Acessar Módulo", key="btn_ocorrencias"):
-        st.experimental_set_query_params(page="1_📋_Ocorrências")
-
-with col2:
-    st.markdown("""
-    <div class="card">
-        <div class="card-content">
-            <div class="card-title">🕒 Grade Horária</div>
-            <div class="card-description">
-                Gestão inteligente de horários:<br><br>
-                • Visualização integrada<br>
-                • Alocação de professores<br>
-                • Exportação automática
-            </div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+    # Seleção de Filial
+    filiais = obter_filiais()
+    opcoes_filial = {f"{f['NOMEFANTASIA']} (Filial {f['CODFILIAL']})": f for f in filiais}
+    filial_selecionada = st.selectbox("Selecione a Filial:", list(opcoes_filial.keys()))
+    f_info = opcoes_filial.get(filial_selecionada)
+    if not f_info:
+        st.error("Filial não selecionada ou inválida.")
+        st.stop()
+    codcoligada = f_info["CODCOLIGADA"]
+    codfilial = f_info["CODFILIAL"]
     
-    if st.button("Acessar Módulo", key="btn_grade"):
-        st.experimental_set_query_params(page="2_🕒_Grade_Horária")
-
-with col3:
-    st.markdown("""
-    <div class="card">
-        <div class="card-content">
-            <div class="card-title">📅 Gestão de Frequência</div>
-            <div class="card-description">
-                Controle de presenças integrado:<br><br>
-                • Lançamento em massa<br>
-                • Alertas automáticos<br>
-                • Relatórios por período
-            </div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown("---")
+    st.subheader("Planos de Pagamento (RAIZA.0015)")
+    planos = obter_planos_pagamento(codcoligada, codfilial)
+    if not planos:
+        st.error("Nenhum plano de pagamento encontrado.")
+        st.stop()
+    plano_selecionado = st.selectbox("Selecione o Plano de Pagamento:", planos)
     
-    if st.button("Acessar Módulo", key="btn_faltas"):
-        st.experimental_set_query_params(page="3_📅_Lançamento_Faltas")
+    st.markdown("---")
+    st.subheader("Dados Detalhados de Pagamento (RAIZA.0014)")
+    dados = obter_dados_pagamento(codcoligada, codfilial, plano_selecionado)
+    if dados:
+        df = pd.DataFrame(dados)
+        st.dataframe(df, use_container_width=True)
+    else:
+        st.warning("Nenhum dado encontrado para o plano selecionado.")
 
-with col4:
-    st.markdown("""
-    <div class="card">
-        <div class="card-content">
-            <div class="card-title">✏️ Gestão de Notas</div>
-            <div class="card-description">
-                Sistema completo de avaliação:<br><br>
-                • Lançamento por disciplina<br>
-                • Cálculo de médias<br>
-                • Análise de desempenho
-            </div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    if st.button("Acessar Módulo", key="btn_notas"):
-        st.experimental_set_query_params(page="4_✏️_Notas")
-
-# Footer
-st.markdown("---")
-st.markdown("""
-<div style="text-align: center; padding: 20px; color: #6b7280;">
-    <p style="font-size: 0.9rem;">
-        🚀 Versão 2.0 | Desenvolvido por <strong>BI</strong><br>
-        📧 bi@raizaeducacao.com.br | 📞 (21) 98905-9301
-    </p>
-</div>
-""", unsafe_allow_html=True)
+if __name__ == "__main__":
+    main()
