@@ -8,9 +8,45 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# CSS Customizado
+# Estilo: vídeo no topo fixo + container com margem
 st.markdown("""
 <style>
+    .video-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 400px;
+        object-fit: cover;
+        z-index: -1;
+        pointer-events: none;
+    }
+
+    .main {
+        margin-top: 380px;
+    }
+
+    .header-overlay {
+        position: absolute;
+        top: 60px;
+        width: 100%;
+        text-align: center;
+        z-index: 1;
+    }
+
+    .header-overlay h1 {
+        color: white;
+        font-size: 3rem;
+        font-weight: 700;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+    }
+
+    .header-overlay h3 {
+        color: white;
+        font-weight: 400;
+        text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);
+    }
+
     .card {
         background: white;
         border-radius: 15px;
@@ -18,25 +54,31 @@ st.markdown("""
         transition: all 0.3s ease;
         margin-bottom: 25px;
         overflow: hidden;
+        border: 1px solid #ddd;
     }
+
     .card:hover {
         transform: translateY(-5px);
         box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
     }
+
     .card-content {
         padding: 25px;
     }
+
     .card-title {
         font-size: 1.4rem;
         font-weight: 600;
         color: #1f2937;
         margin-bottom: 15px;
     }
+
     .card-description {
         font-size: 0.95rem;
         color: #6b7280;
         line-height: 1.6;
     }
+
     .stButton>button {
         width: 100%;
         background: #3b82f6 !important;
@@ -44,19 +86,21 @@ st.markdown("""
         border: none !important;
     }
 </style>
+
+<video class="video-bg" autoplay muted loop playsinline>
+    <source src="static/Raiza fundo branco.mp4" type="video/mp4">
+</video>
+
+<div class="header-overlay">
+    <h1>Bem-vindo à Raiza</h1>
+    <h3>Sua solução integrada de gestão escolar</h3>
+</div>
 """, unsafe_allow_html=True)
 
-# Conteúdo Principal
-st.title("🏩 Bem-vindo à Raiza")
-st.markdown("""
-    <div style="text-align: center; margin-bottom: 40px;">
-        <h3 style="color: #4b5563; font-weight: 400;">
-            Plataforma Integrada de Gestão Escolar
-        </h3>
-    </div>
-""", unsafe_allow_html=True)
+# ⬇️ Conteúdo principal com margem após o vídeo
+st.markdown('<div class="main">', unsafe_allow_html=True)
 
-# Seção 1: Registro de Ocorrências e Gestão de Notas
+# Seção 1: Ocorrências e Notas
 col1, col2 = st.columns(2)
 
 with col1:
@@ -67,15 +111,13 @@ with col1:
             <div class="card-description">
                 Registre e acompanhe incidentes escolares:<br><br>
                 • Histórico completo de alunos<br>
-                • Sistema de classificação<br>
-                • Relatórios personalizados
+                • Lançamento de ocorrências<br>
             </div>
         </div>
     </div>
     """, unsafe_allow_html=True)
-    
     if st.button("Acessar Módulo", key="btn_ocorrencias"):
-        st.switch_page("pages/1_🗉️_Ocorrências.py")
+        st.switch_page("pages/1_📋_Ocorrências.py")
 
 with col2:
     st.markdown("""
@@ -85,17 +127,15 @@ with col2:
             <div class="card-description">
                 Sistema completo de avaliação:<br><br>
                 • Lançamento por disciplina<br>
-                • Cálculo de médias<br>
                 • Análise de desempenho
             </div>
         </div>
     </div>
     """, unsafe_allow_html=True)
-    
     if st.button("Acessar Módulo", key="btn_notas"):
         st.switch_page("pages/4_✏️_Notas.py")
 
-# Seção 2: Grade Horária, Gestão de Frequência e Consulta de Planos
+# Seção 2: Grade Horária, Faltas, Planos
 col3, col4, col5 = st.columns(3)
 
 with col3:
@@ -106,13 +146,11 @@ with col3:
             <div class="card-description">
                 Gestão inteligente de horários:<br><br>
                 • Visualização integrada<br>
-                • Alocação de professores<br>
                 • Exportação automática
             </div>
         </div>
     </div>
     """, unsafe_allow_html=True)
-    
     if st.button("Acessar Módulo", key="btn_grade"):
         st.switch_page("pages/2_🕒_Grade_Horária.py")
 
@@ -124,15 +162,13 @@ with col4:
             <div class="card-description">
                 Controle de presenças integrado:<br><br>
                 • Lançamento em massa<br>
-                • Alertas automáticos<br>
-                • Relatórios por período
+                • Lançamento retroativo
             </div>
         </div>
     </div>
     """, unsafe_allow_html=True)
-    
     if st.button("Acessar Módulo", key="btn_faltas"):
-        st.switch_page("pages/3_🗓_Lançamento_Faltas.py")
+        st.switch_page("pages/3_📅_Lançamento_Faltas.py")
 
 with col5:
     st.markdown("""
@@ -141,16 +177,14 @@ with col5:
             <div class="card-title">🛂 Consulta de Planos</div>
             <div class="card-description">
                 Acesse informações sobre planos educacionais:<br><br>
-                • Comparação entre planos<br>
-                • Regras e valores aplicáveis<br>
-                • Simulação financeira
+                • Visualização dos alunos aderentes<br>
+                • Exportação de listas
             </div>
         </div>
     </div>
     """, unsafe_allow_html=True)
-    
     if st.button("Acessar Módulo", key="btn_planos"):
-        st.switch_page("pages/5_🛂_Consulta_Planos.py")
+        st.switch_page("pages/5_🗂️_Consulta_Planos.py")
 
 # Seção 3: Central do Aluno
 st.markdown("""
@@ -161,14 +195,13 @@ st.markdown("""
             Portal completo para gestão de informações estudantis:<br><br>
             • Consulta de dados cadastrais<br>
             • Histórico escolar completo<br>
-            • Boletim online atualizado<br>
+            • Notas online atualizadas<br>
         </div>
     </div>
 </div>
 """, unsafe_allow_html=True)
-
 if st.button("Acessar Central do Aluno", key="btn_central"):
-    st.switch_page("pages/Central_Aluno.py")
+    st.switch_page("pages/0_👤_Central_Aluno.py")
 
 # Footer
 st.markdown("---")
@@ -180,3 +213,6 @@ st.markdown("""
     </p>
 </div>
 """, unsafe_allow_html=True)
+
+# ⬆️ Fecha div principal
+st.markdown('</div>', unsafe_allow_html=True)
