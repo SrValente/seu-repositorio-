@@ -8,93 +8,97 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# CSS e Vídeo de Fundo
+# CSS completo com efeito Siri
 st.markdown("""
 <style>
-    .video-bg {
+    /* Container do vídeo YouTube */
+    .yt-bg {
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 400px;
-        object-fit: cover;
-        z-index: 0;
+        top: -60px;
+        left: -10%;
+        width: 120%;
+        height: 120vh;
+        z-index: -1000;
+        overflow: hidden;
+        transform: scale(1.1);
+        filter: brightness(0.95);
+    }
+
+    /* Iframe responsivo */
+    .yt-bg iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
         pointer-events: none;
     }
 
+    /* Efeito de overlay dinâmico */
     .header-overlay {
-        position: absolute;
-        top: 60px;
-        width: 100%;
+        position: relative;
+        z-index: 1000;
+        padding: 8rem 0 3rem;
         text-align: center;
-        z-index: 10;
+        background: linear-gradient(rgba(0,0,0,0.3), transparent 90%);
     }
 
     .header-overlay h1 {
-        color: white;
-        font-size: 3rem;
-        font-weight: 700;
-        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+        color: white !important;
+        font-size: 4.5rem !important;
+        font-weight: 800 !important;
+        text-shadow: 0 8px 24px rgba(0,0,0,0.5) !important;
+        margin: 0 !important;
     }
 
     .header-overlay h3 {
-        color: white;
-        font-weight: 400;
-        text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);
+        color: #f3f4f6 !important;
+        font-size: 1.8rem !important;
+        font-weight: 300 !important;
+        text-shadow: 0 4px 12px rgba(0,0,0,0.4) !important;
+        margin-top: 1rem !important;
     }
 
-    .main {
-        margin-top: 420px;
-        background: rgba(255, 255, 255, 0.97);
-        border-radius: 15px 15px 0 0;
-        padding: 2rem;
-    }
-
+    /* Cards com efeito de vidro */
     .card {
-        background: white;
-        border-radius: 15px;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
-        margin-bottom: 25px;
-        overflow: hidden;
-        border: 1px solid #ddd;
+        background: rgba(255,255,255,0.96) !important;
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255,255,255,0.3) !important;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.1) !important;
+        transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
     }
 
     .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
-    }
-
-    .card-content {
-        padding: 25px;
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 12px 48px rgba(0,0,0,0.15) !important;
     }
 
     .card-title {
-        font-size: 1.4rem;
-        font-weight: 600;
-        color: #1f2937;
-        margin-bottom: 15px;
+        color: #1f2937 !important;
+        font-size: 1.6rem !important;
+        padding-bottom: 12px !important;
+        border-bottom: 2px solid #e5e7eb;
     }
 
-    .card-description {
-        font-size: 0.95rem;
-        color: #6b7280;
-        line-height: 1.6;
+    /* Botões estilizados */
+    .stButton > button {
+        background: rgba(59,130,246,0.9) !important;
+        backdrop-filter: blur(4px);
+        border-radius: 12px !important;
+        padding: 14px 28px !important;
+        transition: all 0.3s ease !important;
     }
 
-    .stButton>button {
-        width: 100%;
-        background: #3b82f6 !important;
-        color: white !important;
-        border: none !important;
+    .stButton > button:hover {
+        background: rgba(37,99,235,0.95) !important;
+        transform: scale(1.05);
     }
 </style>
 
-<video class="video-bg" autoplay muted loop playsinline>
-    <source src="https://cdn.jsdelivr.net/gh/antoniohls/raiza@main/static/Raiza%20fundo%20branco.mp4" type="video/mp4">
-    <!-- Fallback para vídeo genérico se houver erro -->
-    <source src="https://cdn.jsdelivr.net/gh/antoniohls/raiza@main/static/sample.mp4" type="video/mp4">
-</video>
+<div class="yt-bg">
+    <iframe src="https://www.youtube.com/embed/Hy-vN2uOLrY?autoplay=1&mute=1&controls=0&loop=1&playlist=Hy-vN2uOLrY&modestbranding=1&showinfo=0&rel=0&enablejsapi=1" 
+            allow="autoplay; encrypted-media" 
+            allowfullscreen>
+    </iframe>
+</div>
 
 <div class="header-overlay">
     <h1>Bem-vindo à Raiza</h1>
@@ -102,10 +106,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# Conteúdo Principal
-st.markdown('<div class="main">', unsafe_allow_html=True)
-
-# Seção 1: Ocorrências e Notas
+# Seção 1: Módulos Principais
 col1, col2 = st.columns(2)
 
 with col1:
@@ -140,7 +141,7 @@ with col2:
     if st.button("Acessar Módulo", key="btn_notas"):
         st.switch_page("pages/4_✏️_Notas.py")
 
-# Seção 2: Grade Horária, Faltas, Planos
+# Seção 2: Ferramentas Complementares
 col3, col4, col5 = st.columns(3)
 
 with col3:
@@ -191,7 +192,7 @@ with col5:
     if st.button("Acessar Módulo", key="btn_planos"):
         st.switch_page("pages/5_🗂️_Consulta_Planos.py")
 
-# Seção 3: Central do Aluno
+# Seção 3: Novidades
 st.markdown("""
 <div class="card">
     <div class="card-content">
@@ -211,13 +212,10 @@ if st.button("Acessar Central do Aluno", key="btn_central"):
 # Footer
 st.markdown("---")
 st.markdown("""
-<div style="text-align: center; padding: 20px; color: #6b7280;">
-    <p style="font-size: 0.9rem;">
-        🚀 Versão 2.0 | Desenvolvido por <strong>BI</strong><br>
+<div style="text-align: center; padding: 2rem; color: #6b7280;">
+    <p style="font-size: 0.95rem;">
+        🚀 Versão 2.1 | Desenvolvido por <strong>BI Raiza</strong><br>
         📧 bi@raizaeducacao.com.br | 📞 (21) 98905-9301
     </p>
 </div>
 """, unsafe_allow_html=True)
-
-# Fecha div principal
-st.markdown('</div>', unsafe_allow_html=True)
