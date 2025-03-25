@@ -8,22 +8,18 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Estilo: vídeo no topo fixo + container com margem
+# CSS e Vídeo de Fundo
 st.markdown("""
 <style>
     .video-bg {
-        position: absolute;
+        position: fixed;
         top: 0;
         left: 0;
         width: 100vw;
         height: 400px;
         object-fit: cover;
-        z-index: -1;
+        z-index: 0;
         pointer-events: none;
-    }
-
-    .main {
-        margin-top: 380px;
     }
 
     .header-overlay {
@@ -31,7 +27,7 @@ st.markdown("""
         top: 60px;
         width: 100%;
         text-align: center;
-        z-index: 1;
+        z-index: 10;
     }
 
     .header-overlay h1 {
@@ -45,6 +41,13 @@ st.markdown("""
         color: white;
         font-weight: 400;
         text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);
+    }
+
+    .main {
+        margin-top: 420px;
+        background: rgba(255, 255, 255, 0.97);
+        border-radius: 15px 15px 0 0;
+        padding: 2rem;
     }
 
     .card {
@@ -88,7 +91,9 @@ st.markdown("""
 </style>
 
 <video class="video-bg" autoplay muted loop playsinline>
-    <source src="static/Raiza fundo branco.mp4" type="video/mp4">
+    <source src="https://cdn.jsdelivr.net/gh/antoniohls/raiza@main/static/Raiza%20fundo%20branco.mp4" type="video/mp4">
+    <!-- Fallback para vídeo genérico se houver erro -->
+    <source src="https://cdn.jsdelivr.net/gh/antoniohls/raiza@main/static/sample.mp4" type="video/mp4">
 </video>
 
 <div class="header-overlay">
@@ -97,7 +102,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# ⬇️ Conteúdo principal com margem após o vídeo
+# Conteúdo Principal
 st.markdown('<div class="main">', unsafe_allow_html=True)
 
 # Seção 1: Ocorrências e Notas
@@ -214,5 +219,5 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# ⬆️ Fecha div principal
+# Fecha div principal
 st.markdown('</div>', unsafe_allow_html=True)
